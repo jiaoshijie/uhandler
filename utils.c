@@ -8,8 +8,8 @@ uchar* cReadline(FILE* stream) {
   size_t size = 0, flag = 0;
   uchar* buf = (uchar*)malloc(BUFSIZE);
   memset(buf, 0, BUFSIZE);
-  while (fgets(buf, 4, stream)) {
-    size_t buflen = strlen(buf);
+  while (fgets((char*)buf, 4, stream)) {
+    size_t buflen = strlen((char*)buf);
     if (buf[buflen - 1] == '\n') {
       buf[--buflen] = '\0';
       flag = 1;

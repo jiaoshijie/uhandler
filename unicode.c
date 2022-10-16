@@ -33,8 +33,9 @@ static void utf8Tother(uchar*, size_t);
 static void gbkTother(uchar*, size_t);
 
 int main() {
-  char *locale = setlocale(LC_ALL, "en_US.utf8");  // en_US.utf8
+  // char *locale = setlocale(LC_ALL, "en_US.utf8");  // en_US.utf8
   // char *locale = setlocale(LC_ALL, "zh_CN.gbk");   // zh_CN.gbk--do nothing
+  setlocale(LC_ALL, "en_US.utf8");  // en_US.utf8
   ui();
   system(CLEAR);
   return 0;
@@ -104,7 +105,7 @@ int menu_2() {
   int sub_quit = 0;
   printf("Enter the file path to parse> ");
   uchar* path = cReadline(stdin);
-  FILE* f = cfopen(path, "r");  // maybe add "b" for windows
+  FILE* f = cfopen((char*)path, "r");  // maybe add "b" for windows
   free(path);
   if (f != NULL) {
     Trie *root = trieNewNode();
@@ -159,7 +160,7 @@ void submenu_3(KV* head, size_t len) {
   printf("Enter the file path to write to> ");
   uchar* path = cReadline(stdin);
   puts("\nWriting...\n");
-  if (cWrite2file(path, head, len))
+  if (cWrite2file((char*)path, head, len))
     puts("Writing finished!");
   free(path);
   pause();

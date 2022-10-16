@@ -1,6 +1,6 @@
 SOURCE := convert.c output.c utils.c fhandler.c trie.c
 READLINE :=# -lreadline
-CFLAGS := -Wall -Wno-deprecated-declarations -Os -pedantic
+CFLAGS := -Wall -Wextra -Werror -Wno-deprecated-declarations -Os
 
 run: build
 	@./uc

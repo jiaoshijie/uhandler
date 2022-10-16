@@ -44,7 +44,7 @@ uchar* utf32TOgbk(uint ui, size_t *len) {
     uc = (uchar*)malloc(*len);
     memset(uc, 0, *len);
     const Summary *summary = NULL;
-    if (ui >= 0x0000 && ui < 0x0460)
+    if (ui < 0x0460)  // NOTICE: ui(unsigned int) is always >= 0
       summary = &gb2312_uni2indx_page00[(ui>>4)];
     else if (ui >= 0x2000 && ui < 0x2650)
       summary = &gb2312_uni2indx_page20[(ui>>4)-0x200];
@@ -61,7 +61,6 @@ uchar* utf32TOgbk(uint ui, size_t *len) {
       unsigned short used = summary->used;
       unsigned int i = ui & 0x0f;
       if (used & ((unsigned short) 1 << i)) {
-        unsigned short c;
         /* Keep in 'used' only the bits 0..i-1. */
         used &= ((unsigned short) 1 << i) - 1;
         /* Add 'summary->indx' and the number of bits set in 'used'. */
