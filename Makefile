@@ -2,11 +2,11 @@ SOURCE := convert.c output.c utils.c fhandler.c trie.c
 READLINE :=# -lreadline
 CFLAGS := -Wall -Wextra -Werror -Wno-deprecated-declarations -Os
 
-run: build
-	@./uc
-
 build:
 	cc -o uc $(CFLAGS) $(READLINE) $(SOURCE) unicode.c
+
+run: build
+	@./uc
 
 test:
 	cc -o uc $(READLINE) $(SOURCE) test.c
@@ -19,4 +19,4 @@ install: build
 	cp ./uc ~/.local/bin
 
 uninstall:
-	rm -rf ~/.local/bin
+	rm -rf ~/.local/bin/uc

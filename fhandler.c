@@ -1,32 +1,33 @@
 #include "fhandler.h"
 
-FILE* cfopen(char* path, char *m) {    // NOTICE: "b" only for windows system.
-  FILE* f = fopen(path, m);
+FILE *cfopen(char *path, char *m) { // NOTICE: "b" only for windows system.
+  FILE *f = fopen(path, m);
   if (f == NULL) {
     fprintf(stderr, "\033[31merror\033[0m: %s\n", strerror(errno));
   }
   return f;
 }
 
-void parsingFile(FILE* f, Trie* r) {
+void parsingFile(FILE *f, Trie *r) {
   uchar *uc;
-  while(!feof(f)) {
+  while (!feof(f)) {
     size_t pos = 0, t = 0;
     uchar *line = cReadline(f);
-    if (!line) break;
+    if (!line)
+      break;
     int isutf8 = isUTF8(line);
-    while((uc = sep_term_input(line, &pos, isutf8)) != NULL) {
+    while ((uc = sep_term_input(line, &pos, isutf8)) != NULL) {
       trieUpdate(r, uc, pos - t);
       free(uc);
       t = pos;
     }
     free(line);
   }
-  fclose(f);  // this file will not be used anymore.
+  fclose(f); // this file will not be used anymore.
 }
 
-int cWrite2file(char* path, KV* head, size_t len) {
-  FILE* f = cfopen(path, "w");
+int cWrite2file(char *path, KV *head, size_t len) {
+  FILE *f = cfopen(path, "w");
   if (f != NULL) {
     fprintf(f, "symbol,count\n");
     for (size_t i = 0; i < len; i++) {
@@ -37,6 +38,7 @@ int cWrite2file(char* path, KV* head, size_t len) {
       }
     }
     fclose(f);
-  } else return 0;
+  } else
+    return 0;
   return 1;
 }
