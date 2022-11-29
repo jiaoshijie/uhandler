@@ -1,5 +1,6 @@
 #include <locale.h>
 #include <stdio.h>
+#include <signal.h>
 // #include <readline/readline.h>  // only for linux
 // #include <readline/history.h>  // only for linux
 
@@ -32,10 +33,13 @@ static void pause();
 static void utf8Tother(uchar *, size_t);
 static void gbkTother(uchar *, size_t);
 
+static void INThanler();
+
 int main() {
   // char *locale = setlocale(LC_ALL, "en_US.utf8");  // en_US.utf8
   // char *locale = setlocale(LC_ALL, "zh_CN.gbk");   // zh_CN.gbk--do nothing
   setlocale(LC_ALL, "en_US.utf8"); // en_US.utf8
+  signal(SIGINT, INThanler);
   ui();
   clear();
   return 0;
@@ -229,4 +233,9 @@ void gbkTother(uchar *gbk, size_t len) {
   printUtf32Bytes(utf32, "utf-32: ");
   free(utf8);
   free(utf16);
+}
+
+void INThanler() {
+  clear();
+  exit(0);
 }
