@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _U_TRIE_H_
+#define _U_TRIE_H_
+
 #include "utils.h"
 
 typedef struct Trie {
@@ -23,3 +25,5 @@ KV *genKV(Trie *);
 void sortKV(KV *, size_t, int);
 void printKV(KV *, size_t);
 void freeKV(KV *, size_t);
+
+#endif  // _U_TRIE_H_

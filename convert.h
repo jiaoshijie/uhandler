@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _U_CONVERT_H_
+#define _U_CONVERT_H_
+
 #include "utils.h"
 #include <stdlib.h>
 #include <string.h>
@@ -24,3 +26,5 @@ ushort *gbkTOutf16(uchar *, size_t, size_t *);
 uchar *utf32TOgbk(uint, size_t *);
 uchar *uft8TOgbk(uchar *, size_t, size_t *);
 uchar *utf16TOgbk(ushort *, size_t, size_t *);
+
+#endif // _U_CONVERT_H_

@@ -1,6 +1,6 @@
 #include <locale.h>
-#include <stdio.h>
 #include <signal.h>
+#include <stdio.h>
 // #include <readline/readline.h>  // only for linux
 // #include <readline/history.h>  // only for linux
 

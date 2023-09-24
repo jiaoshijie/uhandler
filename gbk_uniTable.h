@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _U_GBK_UNI_TABLE_H_
+#define _U_GBK_UNI_TABLE_H_
+
 #include "utils.h"
 
 // -----------------------------------------------------------------------------------------------------------
@@ -2508,3 +2510,5 @@ static const Summary gb2312_uni2indx_pageff[15] = {
   { 7441, 0x0000 }, { 7441, 0x0000 }, { 7441, 0x0000 }, { 7441, 0x0000 },
   { 7441, 0x0000 }, { 7441, 0x0000 }, { 7441, 0x002b },
 };
+
+#endif  // _U_GBK_UNI_TABLE_H_
