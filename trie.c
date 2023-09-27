@@ -80,23 +80,51 @@ void printKV(KV *head, size_t len) {
 }
 
 // Bubble sort
-void sortKV(KV *begin, size_t len,
-            int seq) { // seq: 1 for negative seq, 0 for positive seq
-  KV *end = begin + len, temp;
-  int flag = 1;
-  for (KV *i = begin; i != end - 1; i++) {
-    for (KV *j = begin; j != end - 1 - (i - begin); j++) {
-      if ((j->count > (j + 1)->count) ^ seq) {
-        temp = *j;
-        *j = *(j + 1);
-        *(j + 1) = temp;
-        flag = 0;
+// void sortKV(KV *begin, size_t len,
+//             int seq) { // seq: 1 for negative seq, 0 for positive seq
+//   KV *end = begin + len, temp;
+//   int flag = 1;
+//   for (KV *i = begin; i != end - 1; i++) {
+//     for (KV *j = begin; j != end - 1 - (i - begin); j++) {
+//       if ((j->count > (j + 1)->count) ^ seq) {
+//         temp = *j;
+//         *j = *(j + 1);
+//         *(j + 1) = temp;
+//         flag = 0;
+//       }
+//     }
+//     if (flag)
+//       break;
+//     flag = 1;
+//   }
+// }
+
+// quick sort
+void sortKV(KV *begin, size_t len, int seq) {
+  if (len == 0) return;
+  void quicksort(KV *begin, KV *end, int seq) {
+    if (begin == end - 1) return;
+    KV *b = begin, *e = end;
+    KV kv = *b;
+    while (b != e - 1) {
+      while (b != e - 1 && ((e - 1)->count > kv.count) ^ seq) e--;
+      if (b != e - 1) {
+        *b = *(e - 1);
+        b++;
+      }
+      while (b != e - 1 && (b->count < kv.count) ^ seq) b++;
+      if (b != e - 1) {
+        *(e - 1) = *b;
+        e--;
       }
     }
-    if (flag)
-      break;
-    flag = 1;
+    *b = kv;
+    if (b != begin)
+      quicksort(begin, b, seq);
+    if (b + 1 != end)
+      quicksort(b + 1, end, seq);
   }
+  quicksort(begin, begin + len, seq);
 }
 
 void freeKV(KV *head, size_t len) {

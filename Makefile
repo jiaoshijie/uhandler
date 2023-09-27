@@ -12,7 +12,7 @@ test:
 	cc -o uc $(READLINE) $(SOURCE) test.c
 
 debug:
-	cc -o uc -g $(READLINE) $(SOURCE)
+	cc -o uc -g $(READLINE) $(SOURCE) unicode.c
 	gdb ./uc -q
 
 install: build
