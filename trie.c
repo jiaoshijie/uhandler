@@ -100,31 +100,59 @@ void printKV(KV *head, size_t len) {
 // }
 
 // quick sort
+// void sortKV(KV *begin, size_t len, int seq) {
+//   if (len == 0) return;
+//   void quicksort(KV *begin, KV *end, int seq) {
+//     if (begin == end - 1) return;
+//     KV *b = begin, *e = end;
+//     KV kv = *b;
+//     while (b != e - 1) {
+//       while (b != e - 1 && ((e - 1)->count > kv.count) ^ seq) e--;
+//       if (b != e - 1) {
+//         *b = *(e - 1);
+//         b++;
+//       }
+//       while (b != e - 1 && (b->count < kv.count) ^ seq) b++;
+//       if (b != e - 1) {
+//         *(e - 1) = *b;
+//         e--;
+//       }
+//     }
+//     *b = kv;
+//     if (b != begin)
+//       quicksort(begin, b, seq);
+//     if (b + 1 != end)
+//       quicksort(b + 1, end, seq);
+//   }
+//   quicksort(begin, begin + len, seq);
+// }
+
+// merge sort
 void sortKV(KV *begin, size_t len, int seq) {
-  if (len == 0) return;
-  void quicksort(KV *begin, KV *end, int seq) {
+  if (len == 0 || len == 1) return;
+  void mergesort(KV* head, KV *begin, KV *end, int seq, KV *target) {
     if (begin == end - 1) return;
-    KV *b = begin, *e = end;
-    KV kv = *b;
-    while (b != e - 1) {
-      while (b != e - 1 && ((e - 1)->count > kv.count) ^ seq) e--;
-      if (b != e - 1) {
-        *b = *(e - 1);
-        b++;
-      }
-      while (b != e - 1 && (b->count < kv.count) ^ seq) b++;
-      if (b != e - 1) {
-        *(e - 1) = *b;
-        e--;
+    KV* middle = begin + (end - begin) / 2;
+    mergesort(head, begin, middle, seq, target);
+    mergesort(head, middle, end, seq, target);
+
+    KV *t = target + (begin - head);
+    KV *left = begin, *right = middle;
+    while (left != middle && right != end) {
+      if ((left->count < right->count) ^ seq) {
+        *(t++) = *(left++);
+      } else {
+        *(t++) = *(right++);
       }
     }
-    *b = kv;
-    if (b != begin)
-      quicksort(begin, b, seq);
-    if (b + 1 != end)
-      quicksort(b + 1, end, seq);
+    while (left != middle) *(t++) = *(left++);
+    while (right != end) *(t++) = *(right++);
   }
-  quicksort(begin, begin + len, seq);
+  KV *work = (KV *)malloc(sizeof(KV) * len);
+  for (size_t i = 0; i < len; i++) {
+    work[i] = begin[i];
+  }
+  mergesort(work, work, work + len, seq, begin);
 }
 
 void freeKV(KV *head, size_t len) {

@@ -14,12 +14,24 @@
 // unicode character: 😈 😘
 void test();
 void filetest();
+void testsort();
 
 int main() {
   char *locale = setlocale(LC_ALL, "en_US.utf8");  // en_US.utf8
   // char *locale = setlocale(LC_ALL, "zh_CN.gbk");   // zh_CN.gbk--do nothing
-  filetest();
+  testsort();
   return 0;
+}
+
+void testsort() {
+  FILE *f = cfopen("./test.txt", "r");
+  Trie* root = trieNewNode();
+  parsingFile(f, root);
+  KV* head = genKV(root);
+  printKV(head, root->count);
+  sortKV(head, root->count, 0);
+  printf("---------------------------------------------------\n");
+  printKV(head, root->count);
 }
 
 void filetest() {

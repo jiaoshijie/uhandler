@@ -9,7 +9,7 @@ run: build
 	@./uc
 
 test:
-	cc -o uc $(READLINE) $(SOURCE) test.c
+	cc -o uc $(READLINE) $(SOURCE) test.c -g
 
 debug:
 	cc -o uc -g $(READLINE) $(SOURCE) unicode.c
