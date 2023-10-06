@@ -24,12 +24,12 @@ int main() {
 }
 
 void testsort() {
-  FILE *f = cfopen("./test.txt", "r");
+  FILE *f = cfopen("./test.c", "r");
   Trie* root = trieNewNode();
   parsingFile(f, root);
   KV* head = genKV(root);
   printKV(head, root->count);
-  sortKV(head, root->count, 0);
+  sortKV(head, root->count, 1);
   printf("---------------------------------------------------\n");
   printKV(head, root->count);
 }
