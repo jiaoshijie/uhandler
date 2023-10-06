@@ -148,6 +148,7 @@ void sortKV(KV *begin, size_t len, int seq) {
   KV *work = (KV *)malloc(sizeof(KV) * len);
   memcpy(work, begin, len * sizeof(KV));
   mergesort(work, work + len, begin, begin + len, seq);
+  free(work);
 }
 
 void freeKV(KV *head, size_t len) {
