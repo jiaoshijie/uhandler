@@ -101,6 +101,7 @@ void printKV(KV *head, size_t len) {
 // }
 
 // quick sort -- non-recursive version
+// Ref: https://alienryderflex.com/quicksort/
 void sortKV(KV *arr, size_t len, int seq) {
   if (len == 0) return;
 #define MAX_LEVELS 1000
