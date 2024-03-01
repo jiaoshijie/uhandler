@@ -1,4 +1,5 @@
 #include "trie.h"
+#include <assert.h>
 
 Trie *trieNewNode() {
   Trie *newN = (Trie *)malloc(sizeof(Trie));
@@ -99,33 +100,65 @@ void printKV(KV *head, size_t len) {
 //   }
 // }
 
-// quick sort
-void sortKV(KV *begin, size_t len, int seq) {
+// quick sort -- non-recursive version
+void sortKV(KV *arr, size_t len, int seq) {
   if (len == 0) return;
-  void quicksort(KV *begin, KV *end, int seq) {
-    if (begin == end - 1) return;
-    KV *b = begin, *e = end;
-    KV kv = *b;
-    while (b != e - 1) {
-      while (b != e - 1 && ((e - 1)->count > kv.count) ^ seq) e--;
-      if (b != e - 1) {
-        *b = *(e - 1);
-        b++;
+#define MAX_LEVELS 1000
+  int beg[MAX_LEVELS], end[MAX_LEVELS], i = 0, L, R;
+  KV pivot;
+  beg[0] = 0;
+  end[0] = len;
+  while (i >= 0) {
+    L = beg[i];
+    R = end[i] - 1;
+    if (L < R) {
+      pivot = arr[L];
+      assert(i < MAX_LEVELS - 1);
+      while (L < R) {
+        while (L < R && (arr[R].count >= pivot.count) ^ seq) R--;
+        if (L < R) arr[L++] = arr[R];
+        while (L < R && (arr[L].count <= pivot.count) ^ seq) L++;
+        if (L < R) arr[R--] = arr[L];
       }
-      while (b != e - 1 && (b->count < kv.count) ^ seq) b++;
-      if (b != e - 1) {
-        *(e - 1) = *b;
-        e--;
-      }
+      // now L should equals to R
+      arr[L] = pivot;
+      // update stack(beg and end)
+      beg[i + 1] = L + 1;
+      end[i + 1] = end[i];
+      end[i++] = L;
+    } else {
+      i--;
     }
-    *b = kv;
-    if (b != begin)
-      quicksort(begin, b, seq);
-    if (b + 1 != end)
-      quicksort(b + 1, end, seq);
   }
-  quicksort(begin, begin + len, seq);
 }
+
+// quick sort
+// void sortKV(KV *begin, size_t len, int seq) {
+//   if (len == 0) return;
+//   void quicksort(KV *begin, KV *end, int seq) {
+//     if (begin == end - 1) return;
+//     KV *b = begin, *e = end;
+//     KV kv = *b;
+//     while (b != e - 1) {
+//       while (b != e - 1 && ((e - 1)->count > kv.count) ^ seq) e--;
+//       if (b != e - 1) {
+//         *b = *(e - 1);
+//         b++;
+//       }
+//       while (b != e - 1 && (b->count < kv.count) ^ seq) b++;
+//       if (b != e - 1) {
+//         *(e - 1) = *b;
+//         e--;
+//       }
+//     }
+//     *b = kv;
+//     if (b != begin)
+//       quicksort(begin, b, seq);
+//     if (b + 1 != end)
+//       quicksort(b + 1, end, seq);
+//   }
+//   quicksort(begin, begin + len, seq);
+// }
 
 // merge sort
 // void sortKV(KV *begin, size_t len, int seq) {
