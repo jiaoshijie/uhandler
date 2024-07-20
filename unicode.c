@@ -75,6 +75,7 @@ void menu() {
   puts("3: Quit(q)");
   puts("");
   printf("> ");
+  fflush(stdout);
 }
 
 void submenu() {
@@ -92,10 +93,12 @@ void submenu() {
   puts("8: Quit(q)");
   puts("");
   printf("> ");
+  fflush(stdout);
 }
 
 void menu_1() {
   printf("Enter a character> ");
+  fflush(stdout);
   uchar *uc = NULL, *line = cReadline(stdin);
   if (line == NULL) {
     quit = 1;
@@ -118,6 +121,7 @@ void menu_1() {
 int menu_2() {
   int sub_quit = 0;
   printf("Enter the file path to parse> ");
+  fflush(stdout);
   uchar *path = cReadline(stdin);
   FILE *f = cfopen((char *)path, "r"); // maybe add "b" for windows
   if (path)
@@ -161,6 +165,7 @@ int menu_2() {
 
 void submenu_2(Trie *r) {
   printf("Enter the character you want to check> ");
+  fflush(stdout);
   uchar *line = cReadline(stdin), *uc;
   int isutf8 = isUTF8(line);
   size_t len = 0;
@@ -175,10 +180,12 @@ void submenu_2(Trie *r) {
 
 void submenu_3(KV *head, size_t len) {
   printf("Enter the file path to write to> ");
+  fflush(stdout);
   uchar *path = cReadline(stdin);
   puts("\nWriting...\n");
   if (cWrite2file((char *)path, head, len))
     puts("Writing finished!");
+  fflush(stdout);
   free(path);
   pause();
 }
@@ -188,12 +195,14 @@ void submenu_sort(KV *head, size_t len, int seq) {
   puts("\nSorting...\n");
   sortKV(head, len, seq);
   puts("Sort finished!");
+  fflush(stdout);
   pause();
 }
 
 void clear() {
   puts(""); // to clear "> "
-  system(CLEAR);
+  int _ret = system(CLEAR);
+  (void)_ret;
 }
 
 void clear_n() {
@@ -204,6 +213,7 @@ void clear_n() {
 
 void pause() {
   printf("\nPress \033[31menter\033[0m key to continue...");
+  fflush(stdout);
   clear_n();
 }
 
